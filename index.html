@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CatchItUp — Your AI-Powered Chat Catch-Up Assistant</title>
+  <meta name="description" content="Skip the scroll. Catch up on what matters. Turn information into insights with CatchItUp AI Analyzer.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./src/style.css">
+</head>
+<body>
+  <div id="app" class="app-layout">
+    
+    <!-- Left Sidebar (App Workspace Navigation) -->
+    <aside class="app-sidebar" id="appSidebar">
+      <div class="sidebar-header">
+        <div class="brand-logo" id="sidebarLogoBtn" style="cursor: pointer;" title="Back to Landing Page">
+          <svg class="logo-icon-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+            <path d="M12 7v6"></path>
+            <path d="M9 10l3-3 3 3"></path>
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1 class="brand-name">CatchItUp</h1>
+          <span class="brand-tagline">Skip the scroll</span>
+        </div>
+        <button class="btn-icon sidebar-collapse-btn" id="collapseSidebarBtn" title="Toggle Sidebar">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+      </div>
+
+      <!-- Sidebar Navigation Links -->
+      <nav class="sidebar-nav">
+        <button class="nav-item active" data-page="landing">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+          <span class="nav-label">Home</span>
+        </button>
+
+        <button class="nav-item" data-page="dashboard">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+          <span class="nav-label">Dashboard</span>
+        </button>
+
+        <button class="nav-item" data-page="aianalyzer">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M8 14s1.5 2 4 2 4-2 4-2"></path><line x1="9" y1="9" x2="9.01" y2="9"></line><line x1="15" y1="9" x2="15.01" y2="9"></line></svg>
+          <span class="nav-label">AI Analyzer</span>
+        </button>
+
+        <button class="nav-item" data-page="catchup">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+          <span class="nav-label">Catch Up</span>
+          <span class="nav-badge count-highlight" id="navBadgeCatchUp">0</span>
+        </button>
+
+        <button class="nav-item" data-page="mychats">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>
+          <span class="nav-label">My Chats</span>
+          <span class="nav-badge" id="navBadgeChatsCount">0</span>
+        </button>
+
+        <button class="nav-item" data-page="analytics">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+          <span class="nav-label">Insights & Analytics</span>
+        </button>
+
+        <button class="nav-item" data-page="saved">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+          <span class="nav-label">Saved Items</span>
+          <span class="nav-badge" id="navBadgeSaved">0</span>
+        </button>
+
+        <button class="nav-item" data-page="settings">
+          <svg class="nav-icon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          <span class="nav-label">Settings</span>
+        </button>
+      </nav>
+
+      <!-- Sidebar User Profile Footer -->
+      <div class="sidebar-footer">
+        <div class="user-pill-card" id="userProfilePill">
+          <div class="user-avatar" id="sidebarUserAvatar">S</div>
+          <div class="user-info">
+            <span class="user-name" id="sidebarUserName">Syed</span>
+            <span class="user-status">Online • 100% Local</span>
+          </div>
+          <button class="btn-icon btn-sm" id="openAuthModalBtn" title="Account / Sign In">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4"></path><polyline points="10 17 15 12 10 7"></polyline><line x1="15" y1="12" x2="3" y2="12"></line></svg>
+          </button>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Workspace Wrapper -->
+    <div class="app-main-wrapper">
+      
+      <!-- Top Navigation Header Bar -->
+      <header class="top-navbar">
+        <div class="navbar-left">
+          <button class="btn-icon mobile-menu-btn" id="mobileMenuBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+          </button>
+
+          <div class="brand-top-logo" id="topHeaderLogoBtn" style="cursor: pointer;">
+            <svg class="logo-icon-svg" xmlns="http://www.w3.org/2000/svg" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path><path d="M12 7v6"></path><path d="M9 10l3-3 3 3"></path></svg>
+            <span class="brand-name-top">CatchItUp</span>
+          </div>
+
+          <!-- Top Landing Nav Links -->
+          <nav class="top-landing-links">
+            <button class="top-link-btn" id="navLinkHome">Home</button>
+            <button class="top-link-btn" id="navLinkFeatures">Features</button>
+            <button class="top-link-btn" id="navLinkAI">AI Analyzer</button>
+            <button class="top-link-btn" id="navLinkDashboard">Dashboard</button>
+          </nav>
+        </div>
+
+        <div class="navbar-right">
+          <div class="global-search-wrapper" id="globalSearchContainer">
+            <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            <input type="text" id="globalSearchInput" class="global-search-input" placeholder="Search chats, keywords...">
+            <button class="btn-clear-search" id="globalSearchClearBtn" style="display: none;">&times;</button>
+          </div>
+
+          <button class="btn-icon theme-toggle-btn" id="themeToggleBtn" title="Toggle Light/Dark Theme">
+            <svg class="icon-sun" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+            <svg class="icon-moon" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+          </button>
+
+          <button class="btn btn-secondary btn-sm" id="topSignInBtn">Sign In</button>
+          <button class="btn btn-primary btn-sm" id="topGetStartedBtn">Get Started</button>
+        </div>
+      </header>
+
+      <!-- Global Filter Bar (Unified Pipeline) -->
+      <section class="global-filter-bar" id="globalFilterBar">
+        <div class="filter-controls-row">
+          <div class="filter-item">
+            <label class="filter-label">Group Chat</label>
+            <select id="globalGroupSelect" class="filter-select">
+              <option value="ALL">All Imported Groups</option>
+            </select>
+          </div>
+
+          <div class="filter-item date-range-item">
+            <label class="filter-label">Date Range</label>
+            <div class="date-picker-group">
+              <input type="date" id="globalStartDateInput" class="filter-date-input" title="Start Date">
+              <span class="date-sep">to</span>
+              <input type="date" id="globalEndDateInput" class="filter-date-input" title="End Date">
+            </div>
+          </div>
+
+          <div class="filter-item user-handle-item">
+            <label class="filter-label">Your Handle</label>
+            <input type="text" id="globalUserNameInput" class="filter-input" placeholder="e.g. Syed" value="Syed">
+          </div>
+
+          <div class="filter-actions-item">
+            <button class="btn btn-secondary btn-sm" id="globalResetFiltersBtn">Reset Filters</button>
+          </div>
+        </div>
+        
+        <div id="dateValidationError" class="toast-error-banner" style="display: none;">
+          ⚠️ <strong>Invalid Date Range:</strong> End Date cannot be earlier than Start Date. Dates auto-adjusted.
+        </div>
+      </section>
+
+      <!-- Main Dynamic Content Body Pages -->
+      <main class="content-body" id="contentBody">
+
+        <!-- 0. LANDING PAGE -->
+        <div class="page-view active" id="pageLanding">
+          
+          <!-- Hero Section -->
+          <section class="hero-section" id="heroSection">
+            <div class="hero-content">
+              <div class="hero-badge-pill">
+                <span class="sparkle-icon">✨</span> CatchItUp 2.0 &bull; Smart AI Intelligence
+              </div>
+              <h1 class="hero-headline">Catch Up on What Matters.<br><span class="gradient-text">Understand the Bigger Picture.</span></h1>
+              <p class="hero-subtitle">Turn information into insights with CatchItUp. Explore important updates, analyze content with AI, and understand what matters most &mdash; all in one place.</p>
+
+              <div class="hero-cta-buttons">
+                <button class="btn btn-primary btn-large" id="heroGetStartedBtn">Get Started Free &rarr;</button>
+                <button class="btn btn-outline btn-large" id="heroExploreAiBtn">Explore AI Analyzer</button>
+              </div>
+
+              <div class="privacy-guarantee-note">
+                🔒 <strong>100% In-Browser Privacy:</strong> Your data and chat exports are processed locally in your browser memory.
+              </div>
+            </div>
+
+            <!-- Hero Product Preview Box -->
+            <div class="hero-preview-box">
+              <div class="preview-card-header">
+                <div class="window-dots"><span></span><span></span><span></span></div>
+                <span class="preview-title">CatchItUp Intelligence Summary</span>
+                <span class="badge-tag tag-success">Live Analysis</span>
+              </div>
+              <div class="preview-card-body">
+                <div class="preview-metric-row">
+                  <div class="mini-stat"><strong>3</strong> Groups</div>
+                  <div class="mini-stat"><strong>24</strong> Messages</div>
+                  <div class="mini-stat"><strong>4</strong> Urgent Alerts</div>
+                  <div class="mini-stat"><strong>3</strong> Decisions</div>
+                </div>
+                <div class="preview-snippet-box">
+                  <div class="snippet-item">
+                    <span class="snippet-badge tag-urgent">Urgent Alert</span>
+                    <p>"We need to finalize the pitch deck slides ASAP before mentor review."</p>
+                  </div>
+                  <div class="snippet-item">
+                    <span class="snippet-badge tag-success">Decision Confirmed</span>
+                    <p>"Agreed! Option B for the frontend architecture is finalized."</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Features Section -->
+          <section class="landing-features-section" id="featuresSection">
+            <div class="section-title-box">
+              <h2 class="landing-section-title">Everything You Need to Catch Up Smarter</h2>
+              <p class="landing-section-desc">Streamline long group conversations into structured, actionable intelligence.</p>
+            </div>
+
+            <div class="features-grid">
+              <!-- Feature 1: AI Analyzer -->
+              <div class="feature-card">
+                <div class="feature-icon primary">🤖</div>
+                <h3>1. AI Content Analyzer</h3>
+                <p>Analyze articles, chat exports, and reports into structured summaries, key points, main themes, and actionable insights.</p>
+              </div>
+
+              <!-- Feature 2: Smart Summaries -->
+              <div class="feature-card">
+                <div class="feature-icon info">⚡</div>
+                <h3>2. Smart Summaries</h3>
+                <p>Turn lengthy information into executive or detailed summaries, highlighting urgent decisions and assigned tasks.</p>
+              </div>
+
+              <!-- Feature 3: Date-Range Exploration -->
+              <div class="feature-card">
+                <div class="feature-icon success">📅</div>
+                <h3>3. Date-Range Exploration</h3>
+                <p>Filter messages and analysis by precise start and end dates. Seamlessly view activity within custom target windows.</p>
+              </div>
+
+              <!-- Feature 4: Personalized Dashboard -->
+              <div class="feature-card">
+                <div class="feature-icon purple">📊</div>
+                <h3>4. Personalized Dashboard</h3>
+                <p>Access chat metrics, participant contribution rankings, peak activity heatmaps, and saved bookmarks in one unified hub.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- AI Analyzer Promotional Section -->
+          <section class="ai-promo-section">
+            <div class="ai-promo-card">
+              <div class="ai-promo-text">
+                <span class="badge-tag tag-purple">Dedicated Workspace</span>
+                <h2>More Than a Summary. Get the Meaning Behind the Content.</h2>
+                <p>CatchItUp AI Analyzer helps you understand information faster by breaking content into summaries, key findings, important themes, and actionable insights.</p>
+                <div class="ai-capabilities-list">
+                  <span>✓ Content Summarization</span>
+                  <span>✓ Key-Point Extraction</span>
+                  <span>✓ Topic Identification</span>
+                  <span>✓ Actionable Insights</span>
+                </div>
+                <button class="btn btn-primary" id="promoTryAiBtn">Try AI Analyzer Now</button>
+              </div>
+              <div class="ai-promo-graphic">
+                <div class="graphic-box">
+                  <div class="gb-title">⚡ Structured Report Output</div>
+                  <div class="gb-item">📝 Executive Summary</div>
+                  <div class="gb-item">💡 Key Findings (4 Extracted)</div>
+                  <div class="gb-item">📋 Actionable Insights</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- How It Works Section -->
+          <section class="how-it-works-section">
+            <div class="section-title-box">
+              <h2 class="landing-section-title">How CatchItUp Works</h2>
+              <p class="landing-section-desc">Three simple steps to make sense of information in seconds.</p>
+            </div>
+
+            <div class="steps-grid">
+              <div class="step-card">
+                <div class="step-num">1</div>
+                <h4>Choose Your Content</h4>
+                <p>Paste text, notes, reports, or select imported WhatsApp exported chat files.</p>
+              </div>
+
+              <div class="step-card">
+                <div class="step-num">2</div>
+                <h4>Analyze with AI</h4>
+                <p>Select your desired analysis mode (Quick Summary, Detailed, Key Points, or Actionable Insights).</p>
+              </div>
+
+              <div class="step-card">
+                <div class="step-num">3</div>
+                <h4>Explore Your Insights</h4>
+                <p>Review structured report sections, copy output, or download analysis text files.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Final Call to Action -->
+          <section class="final-cta-section">
+            <div class="final-cta-card">
+              <h2>Ready to Understand More in Less Time?</h2>
+              <p>Start exploring, analyzing, and making sense of information with CatchItUp.</p>
+              <div class="cta-buttons-row">
+                <button class="btn btn-primary btn-large" id="finalCtaGetStartedBtn">Get Started Free &rarr;</button>
+                <button class="btn btn-outline btn-large" id="finalCtaExploreAiBtn">Explore AI Analyzer</button>
+              </div>
+            </div>
+          </section>
+
+          <!-- Landing Page Footer -->
+          <footer class="landing-footer">
+            <div class="footer-left">
+              <strong>CatchItUp</strong> &mdash; Skip the scroll. Catch up on what matters.
+            </div>
+            <div class="footer-links">
+              <button class="footer-link-btn" id="footLinkHome">Home</button> |
+              <button class="footer-link-btn" id="footLinkFeatures">Features</button> |
+              <button class="footer-link-btn" id="footLinkAI">AI Analyzer</button> |
+              <button class="footer-link-btn" id="footLinkDashboard">Dashboard</button>
+            </div>
+          </footer>
+        </div>
+
+        <!-- 1. DASHBOARD PAGE -->
+        <div class="page-view" id="pageDashboard">
+          <div class="welcome-header-card">
+            <div class="welcome-left">
+              <h2 class="welcome-title">Welcome back, <span id="welcomeUserName">Syed</span>! 👋</h2>
+              <p class="welcome-subtitle">Catch up on what happened across your WhatsApp groups today.</p>
+            </div>
+            <div class="welcome-actions">
+              <button class="btn btn-primary" id="dashCatchUpBtn">⚡ Catch Me Up Now</button>
+              <button class="btn btn-outline" id="dashUploadBtn">+ Upload New Chat</button>
+            </div>
+          </div>
+
+          <div class="metrics-grid">
+            <div class="saas-metric-card">
+              <div class="metric-icon-bg primary">📁</div>
+              <div class="metric-content">
+                <span class="metric-num" id="metricTotalChats">0</span>
+                <span class="metric-name">Chats Imported</span>
+              </div>
+            </div>
+
+            <div class="saas-metric-card">
+              <div class="metric-icon-bg info">💬</div>
+              <div class="metric-content">
+                <span class="metric-num" id="metricTotalMessages">0</span>
+                <span class="metric-name">Messages Processed</span>
+              </div>
+            </div>
+
+            <div class="saas-metric-card">
+              <div class="metric-icon-bg success">📅</div>
+              <div class="metric-content">
+                <span class="metric-num" id="metricPeriodMsgs">0</span>
+                <span class="metric-name">Messages in Period</span>
+              </div>
+            </div>
+
+            <div class="saas-metric-card">
+              <div class="metric-icon-bg warning">🚨</div>
+              <div class="metric-content">
+                <span class="metric-num" id="metricImportantItems">0</span>
+                <span class="metric-name">Important Items</span>
+              </div>
+            </div>
+
+            <div class="saas-metric-card">
+              <div class="metric-icon-bg purple">🤖</div>
+              <div class="metric-content">
+                <span class="metric-num" id="metricAISummaries">Local</span>
+                <span class="metric-name">AI Summaries Engine</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="dash-grid-layout">
+            <div class="card-box">
+              <div class="card-box-header">
+                <h3>Message Volume Activity Timeline</h3>
+                <span class="badge-tag">Daily Distribution</span>
+              </div>
+              <div id="dashTimelineChart" class="chart-container"></div>
+            </div>
+
+            <div class="card-box">
+              <div class="card-box-header">
+                <h3>Recent Chat Imports</h3>
+              </div>
+              <div id="dashRecentImportsList" class="recent-imports-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 2. STRUCTURED AI CONTENT ANALYZER WORKSPACE PAGE -->
+        <div class="page-view" id="pageAianalyzer">
+          <div class="page-header-row">
+            <div>
+              <h2 class="page-title">🤖 AI Content Analyzer</h2>
+              <p class="page-desc">Transform content into clear summaries, key findings, and useful insights.</p>
+            </div>
+            <div class="ai-mode-pill">
+              <span class="pulse-dot green"></span>
+              <span>Structured Analyzer Active</span>
+            </div>
+          </div>
+
+          <div class="analyzer-workspace-card">
+            
+            <!-- Controls & Options Bar -->
+            <div class="analyzer-options-bar">
+              <div class="option-field">
+                <label class="control-label">Source Content Selection</label>
+                <select id="analyzerSourceSelect" class="select-control">
+                  <option value="custom">Paste Custom Text / Article / Notes</option>
+                </select>
+              </div>
+
+              <div class="option-field">
+                <label class="control-label">Analysis Mode</label>
+                <select id="analyzerModeSelect" class="select-control">
+                  <option value="detailed" selected>Detailed Analysis Report</option>
+                  <option value="summary">Executive Quick Summary</option>
+                  <option value="key_points">Key Points Extraction</option>
+                  <option value="topics">Topic & Theme Analysis</option>
+                  <option value="actionable">Actionable Insights & Tasks</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Content Input Area -->
+            <div class="analyzer-input-area">
+              <textarea id="analyzerTextInput" class="analyzer-textarea" placeholder="Paste your article, notes, report, or uploaded chat content here..."></textarea>
+              <div class="input-meta-bar">
+                <span id="analyzerWordCountLabel">0 words | 0 characters</span>
+                <div class="input-action-buttons">
+                  <button class="btn btn-secondary btn-sm" id="analyzerClearInputBtn">Clear Input</button>
+                  <button class="btn btn-primary" id="analyzerSubmitBtn">Analyze Content &rarr;</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Analysis Loading Indicator -->
+            <div id="analyzerLoadingState" class="analyzer-loading-box" style="display: none;">
+              <div class="spinner-dot"></div>
+              <span>Analyzing content and synthesizing structured report...</span>
+            </div>
+
+            <!-- Structured Results Area -->
+            <div id="analyzerResultsArea" class="analyzer-results-container" style="display: none;">
+              <div class="results-toolbar">
+                <h3 class="results-headline">Structured Analysis Report</h3>
+                <div class="results-actions">
+                  <button class="btn btn-sm btn-outline" id="copyResultsBtn">📋 Copy Results</button>
+                  <button class="btn btn-sm btn-primary" id="downloadResultsBtn">📥 Download Analysis (.txt)</button>
+                  <button class="btn btn-sm btn-secondary" id="clearResultsBtn">Clear Results</button>
+                </div>
+              </div>
+
+              <div class="report-cards-grid">
+                <!-- 1. Executive Summary -->
+                <div class="report-card">
+                  <h4>📝 Executive Summary</h4>
+                  <div id="reportSummaryText" class="report-text-body"></div>
+                </div>
+
+                <!-- 2. Key Findings -->
+                <div class="report-card">
+                  <h4>💡 Key Findings & Highlights</h4>
+                  <ul id="reportKeyFindingsList" class="report-list"></ul>
+                </div>
+
+                <!-- 3. Main Topics & Themes -->
+                <div class="report-card">
+                  <h4>🏷️ Main Topics & Themes</h4>
+                  <ul id="reportTopicsList" class="report-list"></ul>
+                </div>
+
+                <!-- 4. Important Facts & Details -->
+                <div class="report-card">
+                  <h4>📌 Important Facts & Details</h4>
+                  <ul id="reportFactsList" class="report-list"></ul>
+                </div>
+
+                <!-- 5. Actionable Insights -->
+                <div class="report-card">
+                  <h4>📋 Actionable Insights & Next Steps</h4>
+                  <ul id="reportInsightsList" class="report-list"></ul>
+                </div>
+
+                <!-- 6. Conclusion -->
+                <div class="report-card">
+                  <h4>🏁 Conclusion</h4>
+                  <div id="reportConclusionText" class="report-text-body"></div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- 3. CATCH UP PAGE -->
+        <div class="page-view" id="pageCatchup">
+          <div class="page-header-row">
+            <div>
+              <h2 class="page-title">⚡ Catch Up Intelligence Recap</h2>
+              <p class="page-desc">Comprehensive summary of missed messages, decisions, action items, and events.</p>
+            </div>
+            <div class="header-tools">
+              <button class="btn btn-secondary btn-sm" id="copySummaryBtn">📋 Copy Summary</button>
+            </div>
+          </div>
+
+          <div class="catchup-sections-grid">
+            <div class="catchup-card urgent-border">
+              <div class="catchup-card-header">
+                <h4>🚨 What You Missed (Urgent Alerts)</h4>
+                <span class="badge-tag tag-urgent" id="catchUpUrgentCount">0</span>
+              </div>
+              <div id="catchUpUrgentList" class="catchup-list"></div>
+            </div>
+
+            <div class="catchup-card info-border">
+              <div class="catchup-card-header">
+                <h4>📢 Important Announcements</h4>
+                <span class="badge-tag tag-info" id="catchUpAnnounceCount">0</span>
+              </div>
+              <div id="catchUpAnnounceList" class="catchup-list"></div>
+            </div>
+
+            <div class="catchup-card success-border">
+              <div class="catchup-card-header">
+                <h4>✅ Decisions Made</h4>
+                <span class="badge-tag tag-success" id="catchUpDecisionsCount">0</span>
+              </div>
+              <div id="catchUpDecisionsList" class="catchup-list"></div>
+            </div>
+
+            <div class="catchup-card purple-border">
+              <div class="catchup-card-header">
+                <h4>📋 Tasks & Action Items</h4>
+                <span class="badge-tag tag-purple" id="catchUpTasksCount">0</span>
+              </div>
+              <div id="catchUpTasksList" class="catchup-list"></div>
+            </div>
+
+            <div class="catchup-card warning-border">
+              <div class="catchup-card-header">
+                <h4>❓ Questions Requiring Answers</h4>
+                <span class="badge-tag tag-warning" id="catchUpQuestionsCount">0</span>
+              </div>
+              <div id="catchUpQuestionsList" class="catchup-list"></div>
+            </div>
+
+            <div class="catchup-card cyan-border">
+              <div class="catchup-card-header">
+                <h4>⏰ Upcoming Dates & Events</h4>
+                <span class="badge-tag tag-cyan" id="catchUpEventsCount">0</span>
+              </div>
+              <div id="catchUpEventsList" class="catchup-list"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 4. MY CHATS PAGE -->
+        <div class="page-view" id="pageMychats">
+          <div class="page-header-row">
+            <div>
+              <h2 class="page-title">💬 My Imported Chats</h2>
+              <p class="page-desc">Manage your exported WhatsApp chat files and preview parsed conversations.</p>
+            </div>
+            <button class="btn btn-primary" id="myChatsUploadBtn">+ Upload Chat Files</button>
+          </div>
+
+          <div class="drop-zone-saas" id="saasDropZone">
+            <input type="file" id="saasFileInput" multiple accept=".txt" class="file-input-hidden">
+            <div class="dropzone-inner">
+              <div class="upload-cloud-icon">☁️</div>
+              <h3>Drag & Drop your WhatsApp <code class="code-tag">.txt</code> exports here</h3>
+              <p>Supports multi-file upload. 100% browser-local processing with zero server storage.</p>
+            </div>
+          </div>
+
+          <div class="mychats-grid" id="myChatsGrid"></div>
+        </div>
+
+        <!-- 5. INSIGHTS & ANALYTICS PAGE -->
+        <div class="page-view" id="pageAnalytics">
+          <div class="page-header-row">
+            <div>
+              <h2 class="page-title">📈 Insights & Conversation Analytics</h2>
+              <p class="page-desc">Visual trends, peak activity hours, and participant breakdown.</p>
+            </div>
+          </div>
+
+          <div class="analytics-grid-two">
+            <div class="card-box">
+              <h3>Message Activity Timeline</h3>
+              <div id="analyticsTimelineChart" class="chart-container"></div>
+            </div>
+
+            <div class="card-box">
+              <h3>Peak Activity Hours (Heatmap)</h3>
+              <div id="analyticsPeakHoursChart" class="chart-container"></div>
+            </div>
+          </div>
+
+          <div class="card-box margin-top-20">
+            <h3>Top Active Participants</h3>
+            <div id="analyticsParticipantsList" class="rankings-container"></div>
+          </div>
+        </div>
+
+        <!-- 6. SAVED ITEMS PAGE -->
+        <div class="page-view" id="pageSaved">
+          <div class="page-header-row">
+            <div>
+              <h2 class="page-title">🔖 Saved Items & Bookmarks</h2>
+              <p class="page-desc">Important messages, decisions, and tasks you have bookmarked for quick reference.</p>
+            </div>
+          </div>
+          <div id="savedItemsList" class="cards-list"></div>
+        </div>
+
+        <!-- 7. SETTINGS PAGE -->
+        <div class="page-view" id="pageSettings">
+          <div class="page-header-row">
+            <div>
+              <h2 class="page-title">⚙️ Application Settings</h2>
+              <p class="page-desc">Manage user profile, theme preferences, local AI status, and data retention.</p>
+            </div>
+          </div>
+
+          <div class="settings-sections">
+            <div class="card-box">
+              <h3>User Profile & Identity</h3>
+              <div class="form-group-row">
+                <label>Your Name / Handle</label>
+                <input type="text" id="settingsUserNameInput" class="input-control" value="Syed">
+              </div>
+              <div class="form-group-row">
+                <label>Email Address</label>
+                <input type="email" id="settingsEmailInput" class="input-control" value="syed@catchitup.ai" readonly>
+              </div>
+              <button class="btn btn-primary btn-sm" id="saveProfileBtn">Save Profile Settings</button>
+            </div>
+
+            <div class="card-box margin-top-20">
+              <h3>Theme Preferences</h3>
+              <div class="theme-picker-row">
+                <label style="cursor: pointer;"><input type="radio" name="themeRadio" value="dark" checked> Dark Mode (Default Slate Navy)</label>
+                <label style="cursor: pointer; margin-left: 20px;"><input type="radio" name="themeRadio" value="light"> Light Mode (Clean Modern SaaS)</label>
+              </div>
+            </div>
+
+            <div class="card-box margin-top-20">
+              <h3>AI Engine & Privacy Data Control</h3>
+              <p class="setting-desc">CatchItUp operates 100% locally in browser memory. You can purge all imported chat data from memory anytime.</p>
+              <button class="btn btn-danger btn-sm" id="purgeDataBtn">🗑️ Purge All Local Chat Data</button>
+            </div>
+          </div>
+        </div>
+
+      </main>
+
+    </div>
+  </div>
+
+  <!-- AUTH MODAL (PRESERVED DESIGN) -->
+  <div class="modal-overlay" id="authModal" style="display: none;">
+    <div class="modal-card auth-modal-card">
+      <div class="modal-header">
+        <h3 id="authModalTitle">Sign In to CatchItUp</h3>
+        <button class="modal-close-btn" id="closeAuthModalBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div id="authErrorMsg" class="toast-error-banner" style="display: none;"></div>
+
+        <form id="authForm">
+          <div class="form-group" id="nameFieldGroup" style="display: none;">
+            <label class="control-label">Full Name</label>
+            <input type="text" id="authNameInput" class="input-control" placeholder="John Doe">
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Email Address</label>
+            <input type="email" id="authEmailInput" class="input-control" placeholder="name@example.com" value="syed@catchitup.ai">
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Password</label>
+            <input type="password" id="authPasswordInput" class="input-control" placeholder="••••••••" value="demo1234">
+          </div>
+
+          <div class="form-actions-row">
+            <button type="submit" class="btn btn-primary btn-block" id="authSubmitBtn">Sign In</button>
+          </div>
+        </form>
+
+        <div class="auth-divider"><span>OR</span></div>
+        <button class="btn btn-secondary btn-block" id="demoAuthBtn">🚀 Continue with Demo Account (Syed)</button>
+        <div class="auth-toggle-text">
+          <span id="authToggleQuestion">Don't have an account?</span>
+          <button class="btn-link" id="authToggleBtn">Create Account</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- FILE PREVIEW MODAL -->
+  <div class="modal-overlay" id="previewModal" style="display: none;">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="modalFileTitle">Group Export Preview</h3>
+        <button class="modal-close-btn" id="closeModalBtn">&times;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-stats" id="modalStatsBar"></div>
+        <div class="preview-tabs">
+          <button class="btn btn-sm btn-tab active" id="btnPreviewParsed">Parsed Messages Preview</button>
+          <button class="btn btn-sm btn-tab" id="btnPreviewRaw">Raw Text Preview</button>
+        </div>
+        <div class="preview-content-box" id="previewContentBox"></div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="./src/app.js"></script>
+</body>
+</html>
